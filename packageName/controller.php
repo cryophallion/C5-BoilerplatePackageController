@@ -6,6 +6,9 @@ use AttributeSet;
 use \Concrete\Core\Attribute\Key\Category as AttributeKeyCategory;
 use \Concrete\Core\Attribute\Key\CollectionKey as CollectionKey;
 use \Concrete\Core\Attribute\Type as AttributeType;
+use Page;
+use PageType;
+use PageTemplate;
 
 class Controller extends Package
 {
@@ -84,5 +87,41 @@ class Controller extends Package
                 $attr->setAllowOtherValues();
             }
         }
+    }
+    
+    /**
+     * Add a Specific Page
+     * @param string $handle Page Handle
+     * @param string $name Page Name
+     * @param string $description Page Description
+     * @param string $type Page Type Handle
+     * @param string $template Page Template Handle
+     * @param string|int|object $parent Parent Page (can be handle, ID, or object)
+     * @param object $pkg Package Object
+     * @return object Page Object
+     */
+    public function addPage($handle, $name, $description, $type, $template, $parent, $pkg)
+    {
+        $page = Page::getByHandle($handle);
+        if (!is_object($page)) {
+            $pageType = PageType::getByHandle($type);
+            $pageTemplate = PageTemplate::getByHandle($template);
+            if (is_object($parent)) {
+                $parent = $parent;
+            } elseif (is_int($parent)) {
+                $parent = Page::getById($parent);
+            } else {
+                $parent = Page::getByPath($parent);
+            }
+            $pkgID = $pkg->getPackageID();
+            $page = $parent->add($pageType, array(
+                'cName' => $name,
+                'cHandle' => $handle,
+                'cDescription' => $description,
+                'pkgID' => $pkgID
+            ), $pageTemplate);
+        }
+        
+        return $page;
     }
 }
