@@ -4,6 +4,8 @@ namespace Concrete\Package\PackageName;
 use Package;
 use AttributeSet;
 use \Concrete\Core\Attribute\Key\Category as AttributeKeyCategory;
+use \Concrete\Core\Attribute\Key\CollectionKey as CollectionKey;
+use \Concrete\Core\Attribute\Type as AttributeType;
 
 class Controller extends Package
 {
@@ -55,6 +57,32 @@ class Controller extends Package
         $att_set = AttributeSet::getByHandle($setHandle);
         if (!is_object($att_set)) {
             $att_set = $pakc->addSet($setHandle, t($setName), $pkg);
+        }
+    }
+    
+        
+    /**
+     * Add Custom Collection Attribute Key
+     * @param string $handle Handle
+     * @param string $name Name
+     * @param string $type Attribute Type
+     * @param object $pkg Package Object
+     * @param object $att_set Attribute Set Object
+     */
+    public function addCollectionAttribute($handle, $name, $type, $pkg, $att_set)
+    {
+        $attr = CollectionKey::getByHandle($handle);
+        if (!is_object($attr)) {
+            $info = array(
+                'akHandle' => $handle,
+                'akName' => $name,
+                'akIsSearchable' => true
+            );
+            $att_type = AttributeType::getByHandle($type);
+            $attr = CollectionAttributeKey::add($att_type, $info, $pkg)->setAttributeSet($att_set);
+            if ($type == 'select') {
+                $attr->setAllowOtherValues();
+            }
         }
     }
 }
