@@ -124,4 +124,37 @@ class Controller extends Package
         
         return $page;
     }
+    
+    /**
+     * Add New Page Type
+     * @param string $typeHandle New Type Handle
+     * @param string $typeName New Type Name
+     * @param string $defaultTemplateHandle Default Page Template Handle
+     * @param string $allowedTemplates (A|C|X) A for all, C for selected only, X for non-selected only
+     * @param array $templateArray Array or Iterator of selected templates, see `$allowedTemplates`
+     * @param object $pkg
+     * @return object Page Type Object
+     */
+    public function addPageType($typeHandle, $typeName, $defaultTemplateHandle, $allowedTemplates, $templateArray, $pkg)
+    {
+        //Get required objects (these can be handles after 8)
+        $defaultTemplate = PageTemplate::getByHandle($defaultTemplateHandle);
+        $allowedTemplateArray = array();
+        foreach($templateArray as $handle) {
+            $allowedTemplateArray[] = PageTemplate::getByHandle($handle);
+        }
+        
+        $pt = PageType::getByHandle($data['handle']);
+        if (!is_object($pt)) {
+            $data = array (
+                'handle' => $typeHandle,
+                'name' => $typeName,
+                'defaultTemplate' => $defaultTemplate,
+                'allowedTemplates' => $allowedTemplates,
+                'templates' => $allowedTemplateArray
+            );
+            $pt = PageType::add($data, $pkg);
+        }
+        return $pt;
+    }
 }
