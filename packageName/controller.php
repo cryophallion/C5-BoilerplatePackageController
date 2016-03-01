@@ -5,6 +5,8 @@ use Package;
 use AttributeSet;
 use \Concrete\Core\Attribute\Key\Category as AttributeKeyCategory;
 use \Concrete\Core\Attribute\Key\CollectionKey as CollectionKey;
+use \Concrete\Core\Attribute\Key\FileKey as FileKey;
+use \Concrete\Core\Attribute\Key\UserKey as UserKey;
 use \Concrete\Core\Attribute\Type as AttributeType;
 use Page;
 use PageType;
@@ -68,13 +70,14 @@ class Controller extends Package
      * Add Custom Collection Attribute Key
      * @param string $handle Handle
      * @param string $name Name
+     * @param string $category Attribute Key Category Class Name (assumes php5.3)
      * @param string $type Attribute Type
      * @param object $pkg Package Object
      * @param object $att_set Attribute Set Object
      */
-    public function addCollectionAttribute($handle, $name, $type, $pkg, $att_set)
+    public function addAttribute($handle, $category, $name, $type, $pkg, $att_set)
     {
-        $attr = CollectionKey::getByHandle($handle);
+        $attr = $category::getByHandle($handle);
         if (!is_object($attr)) {
             $info = array(
                 'akHandle' => $handle,
