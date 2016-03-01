@@ -69,7 +69,7 @@ class Controller extends Package
     
         
     /**
-     * Add Custom Collection Attribute Key
+     * Add Custom Attribute Key
      * @param string $handle Handle
      * @param string $name Name
      * @param string $category Attribute Key Category Class Name (assumes php5.3)
@@ -77,7 +77,7 @@ class Controller extends Package
      * @param object $pkg Package Object
      * @param object $att_set Attribute Set Object
      */
-    public function addAttribute($handle, $category, $name, $type, $pkg, $att_set)
+    public function addAttribute($handle, $name, $category, $type, $pkg, $att_set)
     {
         $attr = $category::getByHandle($handle);
         if (!is_object($attr)) {
@@ -87,7 +87,7 @@ class Controller extends Package
                 'akIsSearchable' => true
             );
             $att_type = AttributeType::getByHandle($type);
-            $attr = CollectionAttributeKey::add($att_type, $info, $pkg)->setAttributeSet($att_set);
+            $attr = $category::add($att_type, $info, $pkg)->setAttributeSet($att_set);
             if ($type == 'select') {
                 $attr->setAllowOtherValues();
             }
