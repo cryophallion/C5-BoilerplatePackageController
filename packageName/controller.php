@@ -17,6 +17,7 @@ class Controller extends Package
     protected $pkgHandle = 'packageName';
     protected $appVersionRequired = '5.7.5.2';
     protected $pkgVersion = '0.0.1';
+    protected $previousVersion = '0.0.0';
 
     public function getPackageDescription()
     {
@@ -37,13 +38,14 @@ class Controller extends Package
     public function upgrade()
     {
         $pkg = Package::getByHandle($this->pkgHandle);
+        $this->previousVersion = $pkg->getPackageVersion();
         parent::upgrade();
         $this->installOrUpgrade($pkg);
     }
 
     public function installOrUpgrade($pkg)
     {
-
+        
     }
 
     /**
