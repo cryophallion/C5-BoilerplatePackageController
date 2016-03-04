@@ -12,6 +12,7 @@ use \Concrete\Core\Attribute\Type as AttributeType;
 use Page;
 use PageType;
 use PageTemplate;
+use SinglePage;
 
 class Controller extends Package
 {
@@ -184,5 +185,36 @@ class Controller extends Package
             $pt = PageType::add($data, $pkg);
         }
         return $pt;
+    }
+    
+    /**
+     * Add Single Page
+     * @param string $path Page Path
+     * @param object $pkg Package Object
+     * @param string $name Single Page Name
+     * @param string $description Single Page Description
+     * @return object Single Page Object
+     */
+    protected function addSinglePage($path, $pkg, $name="", $description="")
+    {
+        //Install single page
+        $sp = Page::getByPath($path);
+        if (!is_object($sp)) {
+           $sp = SinglePage::add($path, $pkg); 
+        }
+        
+        //Set name and description
+        if (!empty($name) || !empty($description)) {
+            $data = array();
+            if (!empty($name)) {
+                $data['cName'] = $name;
+            }
+            if (!empty($description)) {
+                $data['cDescription'] = $description;
+            }
+            $sp->update($data);
+        }
+        
+        return $sp;
     }
 }
