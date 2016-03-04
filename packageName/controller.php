@@ -44,7 +44,7 @@ class Controller extends Package
         $this->installOrUpgrade($pkg);
     }
 
-    public function installOrUpgrade($pkg)
+    protected function installOrUpgrade($pkg)
     {
         
     }
@@ -55,7 +55,7 @@ class Controller extends Package
      * @param object $pkg Package Object
      * @return object Block Type Object
      */
-    public function addBlockType($handle, $pkg)
+    protected function addBlockType($handle, $pkg)
     {
         $bt = BlockType::getByHandle($handle);
         if (!is_object($bt)) {
@@ -73,7 +73,7 @@ class Controller extends Package
      * @param object $pkg Package Object
      * @return object Attribute Set Object
      */
-    public function addAttributeSet($categoryHandle, $setHandle, $setName, $pkg)
+    protected function addAttributeSet($categoryHandle, $setHandle, $setName, $pkg)
     {
         $pakc = AttributeKeyCategory::getByHandle($categoryHandle);
         $pakc->setAllowAttributeSets(AttributeKeyCategory::ASET_ALLOW_MULTIPLE);
@@ -98,7 +98,7 @@ class Controller extends Package
      * @param object $att_set Attribute Set Object
      * @return object Attribute Object
      */
-    public function addAttribute($handle, $name, $category, $type, $pkg, $att_set)
+    protected function addAttribute($handle, $name, $category, $type, $pkg, $att_set)
     {
         $attr = $category::getByHandle($handle);
         if (!is_object($attr)) {
@@ -128,7 +128,7 @@ class Controller extends Package
      * @param object $pkg Package Object
      * @return object Page Object
      */
-    public function addPage($handle, $name, $description, $type, $template, $parent, $pkg)
+    protected function addPage($handle, $name, $description, $type, $template, $parent, $pkg)
     {
         $page = Page::getByHandle($handle);
         if (!is_object($page)) {
@@ -163,7 +163,7 @@ class Controller extends Package
      * @param object $pkg
      * @return object Page Type Object
      */
-    public function addPageType($typeHandle, $typeName, $defaultTemplateHandle, $allowedTemplates, $templateArray, $pkg)
+    protected function addPageType($typeHandle, $typeName, $defaultTemplateHandle, $allowedTemplates, $templateArray, $pkg)
     {
         //Get required objects (these can be handles after 8)
         $defaultTemplate = PageTemplate::getByHandle($defaultTemplateHandle);
