@@ -71,6 +71,7 @@ class Controller extends Package
      * @param string $setHandle New Attribute Set Handle
      * @param string $setName New Attribute Set Name
      * @param object $pkg Package Object
+     * @return object Attribute Set Object
      */
     public function addAttributeSet($categoryHandle, $setHandle, $setName, $pkg)
     {
@@ -82,6 +83,8 @@ class Controller extends Package
         if (!is_object($att_set)) {
             $att_set = $pakc->addSet($setHandle, t($setName), $pkg);
         }
+        
+        return $att_set;
     }
     
         
@@ -93,6 +96,7 @@ class Controller extends Package
      * @param string $type Attribute Type
      * @param object $pkg Package Object
      * @param object $att_set Attribute Set Object
+     * @return object Attribute Object
      */
     public function addAttribute($handle, $name, $category, $type, $pkg, $att_set)
     {
@@ -109,6 +113,8 @@ class Controller extends Package
                 $attr->setAllowOtherValues();
             }
         }
+        
+        return $attr;
     }
     
     /**
