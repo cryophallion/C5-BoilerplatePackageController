@@ -2,6 +2,7 @@
 namespace Concrete\Package\PackageName;
 
 use Package;
+use BlockType;
 use AttributeSet;
 use \Concrete\Core\Attribute\Key\Category as AttributeKeyCategory;
 use \Concrete\Core\Attribute\Key\CollectionKey as CollectionKey;
@@ -46,6 +47,22 @@ class Controller extends Package
     public function installOrUpgrade($pkg)
     {
         
+    }
+    
+    /**
+     * Add Block Type
+     * @param string $handle Block Handle
+     * @param object $pkg Package Object
+     * @return object Block Type Object
+     */
+    public function addBlockType($handle, $pkg)
+    {
+        $bt = BlockType::getByHandle($handle);
+        if (!is_object($bt)) {
+            $bt = BlockType::installBlockType($handle, $pkg);
+        }
+        
+        return $bt;
     }
 
     /**
