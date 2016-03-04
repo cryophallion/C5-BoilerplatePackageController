@@ -13,6 +13,7 @@ use Page;
 use PageType;
 use PageTemplate;
 use SinglePage;
+use PageTheme;
 
 class Controller extends Package
 {
@@ -216,5 +217,21 @@ class Controller extends Package
         }
         
         return $sp;
+    }
+    
+    /**
+     * Add Theme
+     * @param string $handle Theme Handle
+     * @param object $pkg Package Object
+     * @return object Theme Object
+     */
+    protected function addTheme($handle, $pkg)
+    {
+        $theme = PageTheme::getByHandle($handle);
+        if (!is_object($theme)) {
+            $theme = PageTheme::add($handle, $pkg);
+        }
+        
+        return $theme;
     }
 }
