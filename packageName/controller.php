@@ -236,11 +236,17 @@ class Controller extends Package
         return $theme;
     }
     
+    /**
+     * Add File Set
+     * @param string $fsName FileSet Name
+     * @param string $fsType FileSet Type (public, private, starred)
+     * @return object FileSet Object
+     */
     protected function addFileSet($fsName, $fsType)
     {
         $fs = FileSet::getByName($fsName);
         if (!is_object($fs)) {
-            switch ($fsType) {
+            switch (strtolower($fsType)) {
                 case 'private':
                     $type = 'TYPE_PRIVATE';
                     break;
