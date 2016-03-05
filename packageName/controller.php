@@ -14,6 +14,7 @@ use PageType;
 use PageTemplate;
 use SinglePage;
 use PageTheme;
+use FileSet;
 
 class Controller extends Package
 {
@@ -233,5 +234,32 @@ class Controller extends Package
         }
         
         return $theme;
+    }
+    
+    protected function addFileSet($fsName, $fsType)
+    {
+        $fs = FileSet::getByName($fsName);
+        if (!is_object($fs)) {
+            switch ($fsType) {
+                case 'private':
+                    $type = 'TYPE_PRIVATE';
+                    break;
+                
+                case 'public':
+                    $type = 'TYPE_PUBLIC';
+                    break;
+                
+                case 'starred':
+                    $type = 'TYPE_STARRED';
+                    break;
+
+                default:
+                    $type = 'TYPE_PRIVATE';
+                    break;
+            }
+            $fs = FileSet::createAndGetSet($fsName, $fsType);
+        }
+        
+        return $fs;
     }
 }
