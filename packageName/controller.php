@@ -97,11 +97,11 @@ class Controller extends Package
      * @param string $name Name
      * @param string $category Attribute Key Category Class Name (assumes php5.3)
      * @param string $type Attribute Type
-     * @param object $pkg Package Object
      * @param object $att_set Attribute Set Object
+     * @param object $pkg Package Object
      * @return object Attribute Object
      */
-    protected function addAttribute($handle, $name, $category, $type, $pkg, $att_set)
+    protected function addAttribute($handle, $name, $category, $type, $att_set, $pkg)
     {
         $attr = $category::getByHandle($handle);
         if (!is_object($attr)) {
