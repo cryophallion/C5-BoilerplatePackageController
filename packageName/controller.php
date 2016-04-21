@@ -95,7 +95,7 @@ class Controller extends Package
      * Add Custom Attribute Key
      * @param string $handle Handle
      * @param string $name Name
-     * @param string $category Attribute Key Category Class Name (assumes php5.3)
+     * @param object $category Attribute Key Category Class (ie, CollectionKey, etc class object)
      * @param string $type Attribute Type
      * @param object $att_set Attribute Set Object
      * @param object $pkg Package Object
