@@ -99,9 +99,10 @@ class Controller extends Package
      * @param string $type Attribute Type
      * @param object $att_set Attribute Set Object
      * @param object $pkg Package Object
+     * @param boolean $select_allow_values Sets whether additional values are allowed for select attributes
      * @return object Attribute Object
      */
-    protected function addAttribute($handle, $name, $category, $type, $att_set, $pkg)
+    protected function addAttribute($handle, $name, $category, $type, $att_set, $pkg, $select_allow_values = true)
     {
         $attr = $category::getByHandle($handle);
         if (!is_object($attr)) {
@@ -112,7 +113,7 @@ class Controller extends Package
             );
             $att_type = AttributeType::getByHandle($type);
             $attr = $category::add($att_type, $info, $pkg)->setAttributeSet($att_set);
-            if ($type == 'select') {
+            if ($type == 'select' && $select_allow_values == true) {
                 $attr->setAllowOtherValues();
             }
         }
