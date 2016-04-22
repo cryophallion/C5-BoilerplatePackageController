@@ -95,16 +95,16 @@ class Controller extends Package
      * Add Custom Attribute Key
      * @param string $handle Handle
      * @param string $name Name
-     * @param object $category Attribute Key Category Class (ie, CollectionKey, etc class object)
      * @param string $type Attribute Type
-     * @param object $att_set Attribute Set Object
+     * @param object $categoryKeyObject Attribute Key Category Class (ie, CollectionKey, etc class object)
+     * @param object $attibuteSetObject Attribute Set Object
      * @param object $pkg Package Object
-     * @param boolean $select_allow_values Sets whether additional values are allowed for select attributes
+     * @param boolean $selectAllowOtherValues Sets whether additional values are allowed for select attributes
      * @return object Attribute Object
      */
-    protected function addAttribute($handle, $name, $category, $type, $att_set, $pkg, $select_allow_values = true)
+    protected function addAttribute($handle, $name, $type, $categoryKeyObject, $attibuteSetObject, $pkg, $selectAllowOtherValues = true)
     {
-        $attr = $category::getByHandle($handle);
+        $attr = $categoryKeyObject::getByHandle($handle);
         if (!is_object($attr)) {
             $info = array(
                 'akHandle' => $handle,
@@ -112,8 +112,8 @@ class Controller extends Package
                 'akIsSearchable' => true
             );
             $att_type = AttributeType::getByHandle($type);
-            $attr = $category::add($att_type, $info, $pkg)->setAttributeSet($att_set);
-            if ($type == 'select' && $select_allow_values == true) {
+            $attr = $categoryKeyObject::add($att_type, $info, $pkg)->setAttributeSet($attibuteSetObject);
+            if ($type == 'select' && $selectAllowOtherValues == true) {
                 $attr->setAllowOtherValues();
             }
         }
