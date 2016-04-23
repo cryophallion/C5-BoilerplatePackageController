@@ -12,6 +12,7 @@ use \Concrete\Core\Attribute\Type as AttributeType;
 use Page;
 use PageType;
 use PageTemplate;
+use \Concrete\Core\Page\Type\PublishTarget\Type\Type as PublishTargetType;
 use SinglePage;
 use PageTheme;
 use FileSet;
