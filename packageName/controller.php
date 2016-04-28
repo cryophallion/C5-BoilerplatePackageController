@@ -13,6 +13,9 @@ use Page;
 use PageType;
 use PageTemplate;
 use \Concrete\Core\Page\Type\PublishTarget\Type\Type as PublishTargetType;
+use \Concrete\Core\Page\Type\Composer\LayoutSet as LayoutSet;
+use \Concrete\Core\Page\Type\Composer\Control\CollectionAttributeControl as AttributeControl;
+use \Concrete\Core\Page\Type\Composer\Control\BlockControl as BlockControl;
 use SinglePage;
 use PageTheme;
 use FileSet;
@@ -322,6 +325,54 @@ class Controller extends Package
         $pageTypeObject->setConfiguredPageTypePublishTargetObject($configuredParentTarget);
         
         return $pageTypeObject;
+    }
+    
+    /**
+     * Adds an Attribute Form Control
+     * @param string $attributeHandle Attribute Handle
+     * @param object $layoutSet Composer Layout Set
+     * @param string $customName Custom Name for Control
+     * @param string $customDescription Custom Description for Control
+     * @return object AttributeControl
+     */
+    protected function addAttributeFormControl($attributeHandle, $layoutSet, $customName=null, $customDescription=null)
+    {
+        $fc = new AttributeControl();
+        $aID = CollectionKey::getByHandle($attributeHandle)->getAttributeKeyID();
+        $fc->setAttributeKeyId($aID);
+        $fc->addToPageTypeComposerFormLayoutSet($layoutSet);
+        if (!empty($customName)) {
+            $fc->updateFormLayoutSetControlCustomLabel($customName);
+        }
+        if (!empty($customDescription)) {
+            $fc->updateFormLayoutSetControlDescription($customDescription);
+        }
+        
+        return $fc;
+    }
+    
+    /**
+     * Adds a Block Form Control
+     * @param string $blockHandle Block Type Handle
+     * @param object $layoutSet Composer Layout Set
+     * @param string $customName Custom Name for Control
+     * @param string $customDescription Custom Description for Control
+     * @return object BlockControl
+     */
+    protected function addBlockFormControl($blockHandle, $layoutSet, $customName=null, $customDescription=null)
+    {
+        $fc = new BlockControl();
+        $bID = BlockType::getByHandle($blockHandle)->getBlockTypeID();
+        $fc->setBlockTypeID($bID);
+        $fc->addToPageTypeComposerFormLayoutSet($layoutSet);
+        if (!empty($customName)) {
+            $fc->updateFormLayoutSetControlCustomLabel($customName);
+        }
+        if (!empty($customDescription)) {
+            $fc->updateFormLayoutSetControlDescription($customDescription);
+        }
+        
+        return $fc;
     }
     
     /**
