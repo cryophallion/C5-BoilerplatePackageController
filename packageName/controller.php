@@ -127,21 +127,30 @@ class Controller extends Package
     
     /**
      * Add a Specific Page
-     * @param string $handle Page Handle
+     * @param string|int $pathOrCID Page Path OR CID
      * @param string $name Page Name
      * @param string $description Page Description
      * @param string $type Page Type Handle
      * @param string $template Page Template Handle
      * @param string|int|object $parent Parent Page (can be handle, ID, or object)
      * @param object $pkg Package Object
+     * @param string $handle Optional slugified handle
      * @return object Page Object
      */
-    protected function addPage($handle, $name, $description, $type, $template, $parent, $pkg)
+    protected function addPage($pathOrCID, $name, $description, $type, $template, $parent, $pkg, $handle=null)
     {
-        $page = Page::getByHandle($handle);
-        if (!is_object($page)) {
+        //Get Page if it's already created
+        if (is_int($pathOrCID)) {
+            $page = Page::getByID($pathOrCID);
+        } else {
+            $page = Page::getByPath($pathOrCID);
+        }
+        if ($page->isError() && $page->getError() == COLLECTION_NOT_FOUND) {
+            //Get Page Type and Templates from their handles
             $pageType = PageType::getByHandle($type);
             $pageTemplate = PageTemplate::getByHandle($template);
+            
+            //Get parent, depending on what format parent is passed in
             if (is_object($parent)) {
                 $parent = $parent;
             } elseif (is_int($parent)) {
@@ -149,12 +158,16 @@ class Controller extends Package
             } else {
                 $parent = Page::getByPath($parent);
             }
+            //Get package
             $pkgID = $pkg->getPackageID();
+            
+            //Create Page
             $page = $parent->add($pageType, array(
                 'cName' => $name,
                 'cHandle' => $handle,
                 'cDescription' => $description,
-                'pkgID' => $pkgID
+                'pkgID' => $pkgID,
+                'cHandle' => $handle
             ), $pageTemplate);
         }
         
@@ -387,7 +400,7 @@ class Controller extends Package
     {
         //Install single page
         $sp = Page::getByPath($path);
-        if (!is_object($sp)) {
+        if ($sp->isError() && $sp->getError() == COLLECTION_NOT_FOUND) {
            $sp = SinglePage::add($path, $pkg); 
         }
         
