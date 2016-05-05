@@ -116,7 +116,8 @@ class Controller extends Package
                 'akIsSearchable' => true
             );
             $att_type = AttributeType::getByHandle($type);
-            $attr = $categoryKeyObject::add($att_type, $info, $pkg)->setAttributeSet($attibuteSetObject);
+            $attr = $categoryKeyObject::add($att_type, $info, $pkg);
+            $attr->setAttributeSet($attibuteSetObject);
             if ($type == 'select' && $selectAllowOtherValues == true) {
                 $attr->setAllowOtherValues();
             }
