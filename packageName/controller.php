@@ -119,7 +119,7 @@ class Controller extends Package
             $attr = $categoryKeyObject::add($att_type, $info, $pkg);
             $attr->setAttributeSet($attibuteSetObject);
             if ($type == 'select' && $selectAllowOtherValues == true) {
-                $attr->setAllowOtherValues();
+                $attr->getController()->setAllowOtherValues();
             }
         }
         
