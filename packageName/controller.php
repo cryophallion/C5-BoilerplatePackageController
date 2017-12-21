@@ -580,4 +580,39 @@ class Controller extends Package
         $entityManager->persist($entity);
         $entityManager->flush();
     }
+    
+     /**
+     * Gets packages current working directory
+     * @param object $pkg
+     * @return string
+     */
+    protected function getPackageCwd($pkg)
+    {
+        $cwd = getcwd();
+        $pkg_path = $pkg->getRelativePath();
+        return $cwd . $pkg_path;
+    }
+
+    /**
+     * Imports an existing file into C5
+     * @param string $file_path
+     * @param string $cwd
+     * @return boolean|Object
+     */
+    protected function importFile($file_path, $cwd)
+    {
+        if (!empty($file_path) && ($file_path != 'NULL')) {
+            $importer = new FileImporter();
+            $imported_file = $importer->import($cwd . '/files/' . $file_path);
+            if (is_object($imported_file)) {
+                return $imported_file->getFile();
+            } else {
+                error_log($file_path); //Error logging for files not imported
+                error_log(print_r($imported_file));
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
