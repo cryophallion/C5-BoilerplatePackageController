@@ -245,6 +245,24 @@ class Controller extends Package
 
         return $pt;
     }
+    
+    /**
+     * Add New Page Template
+     * @param string $handle New Template Handle
+     * @param string $name New Template Name
+     * @param string $icon Page Template Icon = full.png|left_sidebar.png|right_sidebar.png|...
+     * @param object $pkg
+     * @return object Page Template Object
+     */
+    protected function addPageTemplate($handle, $name, $icon, $pkg)
+    {
+        $pageTemplate = PageTemplate::getByHandle($handle);
+        if (!is_object($pageTemplate)) {
+            $pageTemplate = PageTemplate::add($handle, t($name), $icon, $pkg);
+        }
+
+        return $pageTemplate;
+    }  
 
     /**
      * Add New Page Type
